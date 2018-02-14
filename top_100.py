@@ -5,6 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 # randomize hits, to avoid blacklisting
 from time import sleep
@@ -55,4 +56,10 @@ while urls.count("http") < 101:
         #persist collection
             articles.append((item2_URL, item2_headline, item2_author_time))
 
-print(articles)
+# print(articles)
+
+#Option for output to CSV file
+with open('articles.csv', 'a') as csv_file:
+    writer=csv.writer(csv_file)
+    for item2_URL, item2_headline, item2_author_time in articles:
+        writer.writerow([item2_URL, item2_headline, item2_author_time])
