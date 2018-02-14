@@ -31,9 +31,9 @@ while urls.count("http") < 101:
 
 
     # pause btwn 8-15s, monitor requests
-    sleep(randint(8,15))
-
-    print("Request no."+str(j) + ", Index page "+str(n), "urls count is "+str(urls.count("http")))
+    # sleep(randint(8,15))
+    #
+    # print("Request no."+str(j) + ", Index page "+str(n), "urls count is "+str(urls.count("http")))
     n+=1
     j=+1
 
