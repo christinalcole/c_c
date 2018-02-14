@@ -21,15 +21,20 @@ urls = []
 for a in item:
     urls.append(a["href"])
 
-while len(urls) < 15:
+# print (urls)
+
+while urls.count("http") < 101:
     n = 2
-    request = 1
+    j = 2
     page = requests.get("http://www.yangtse.com/app/internet/index_" + str(n) + ".html")
+
 
     # pause btwn 8-15s, monitor requests
     sleep(randint(8,15))
-    request=+1
-    print("Request no."+str(request))
+
+    print("Request no."+str(j) + ", Index page "+str(n), "urls count is "+str(urls.count("http")))
+    n+=1
+    j=+1
 
     # isolate and collect URLS for each item on list_page
     soup = BeautifulSoup(page.text, 'html.parser')
@@ -39,15 +44,15 @@ while len(urls) < 15:
         urls.append(a["href"])
 
 
-    #Iterate through collection of URLs, extract details for 12 articles
-    articles = []
-    for link in urls:
-        soup = BeautifulSoup(requests.get(link).text, 'html.parser')
-    #collect headline, author, time, URL
-        item2_headline = soup.select(".text-title")
-        item2_author_time = soup.select(".text-time")
-        item2_URL = link
-    #persist collection
-        articles.append((item2_URL, item2_headline, item2_author_time))
+        #Iterate through collection of URLs, extract details for 12 articles
+        articles = []
+        for link in urls:
+            soup = BeautifulSoup(requests.get(link).text, 'html.parser')
+        #collect headline, author, time, URL
+            item2_headline = soup.select(".text-title")
+            item2_author_time = soup.select(".text-time")
+            item2_URL = link
+        #persist collection
+            articles.append((item2_URL, item2_headline, item2_author_time))
 
 print(articles)
