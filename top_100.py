@@ -6,6 +6,10 @@
 import requests
 from bs4 import BeautifulSoup
 
+# randomize hits, to avoid blacklisting
+from time import sleep
+from random import randint
+
 site = "http://www.yangtse.com/app/internet/index.html"
 page = requests.get(site)
 soup = BeautifulSoup(page.text, 'html.parser')
@@ -17,15 +21,33 @@ urls = []
 for a in item:
     urls.append(a["href"])
 
-#Iterate through collection of URLs, extract details for 12 articles
-articles = []
-for link in urls:
-    soup = BeautifulSoup(requests.get(link).text, 'html.parser')
-#collect headline, author, time, URL
-    item2_headline = soup.select(".text-title")
-    item2_author_time = soup.select(".text-time")
-    item2_URL = link
-#persist collection
-    articles.append((item2_URL, item2_headline, item2_author_time))
+while len(urls) < 15:
+    n = 2
+    request = 1
+    page = requests.get("http://www.yangtse.com/app/internet/index_" + str(n) + ".html")
+
+    # pause btwn 8-15s, monitor requests
+    sleep(randint(8,15))
+    request=+1
+    print("Request no."+str(request))
+
+    # isolate and collect URLS for each item on list_page
+    soup = BeautifulSoup(page.text, 'html.parser')
+    item = soup.select(".box-text-title > a")
+
+    for a in item:
+        urls.append(a["href"])
+
+
+    #Iterate through collection of URLs, extract details for 12 articles
+    articles = []
+    for link in urls:
+        soup = BeautifulSoup(requests.get(link).text, 'html.parser')
+    #collect headline, author, time, URL
+        item2_headline = soup.select(".text-title")
+        item2_author_time = soup.select(".text-time")
+        item2_URL = link
+    #persist collection
+        articles.append((item2_URL, item2_headline, item2_author_time))
 
 print(articles)
