@@ -12,4 +12,6 @@ soup = BeautifulSoup(page.text, 'html.parser')
 
 item = soup.select(".box-text-title > a")
 
-print(item)
+# isolate URL for each item
+for a in item:
+    print("URL: ", a["href"])
