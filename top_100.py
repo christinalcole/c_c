@@ -11,10 +11,10 @@ import csv
 from time import sleep
 from random import randint
 
-site = "http://www.yangtse.com/app/internet/index.html"
-page = requests.get(site)
-soup = BeautifulSoup(page.text, 'html.parser')
-
+# site = "http://www.yangtse.com/app/internet/index.html"
+# page = requests.get(site)
+# soup = BeautifulSoup(page.text, 'html.parser')
+soup = BeautifulSoup(open("/Users/christinacole/Desktop/Technology - Yangtze Evening News Network.htm"), "html.parser")
 item = soup.select(".box-text-title > a")
 
 # isolate and collect URLs for each item on page (~12 URLs)
