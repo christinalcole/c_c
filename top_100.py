@@ -3,6 +3,8 @@
 # Persist collection, eliminate duplicates
 # Alternate output: write to CSV file
 
+import code
+
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -14,7 +16,9 @@ from random import randint
 site = "http://www.yangtse.com/app/internet/index.html"
 page = requests.get(site)
 soup = BeautifulSoup(page.text, 'html.parser')
-# soup = BeautifulSoup(open("/Users/christinacole/Desktop/Technology - Yangtze Evening News Network.htm"), "html.parser")
+# soup = BeautifulSoup(open("/Users/christinacole/Desktop/Technology - Yangtze Evening News Network.htm"), "lxml")
+# soup.encoding = "GBK"
+# code.interact(local=dict(globals(), **locals()))
 item = soup.select(".box-text-title > a")
 
 # isolate and collect URLs for each item on page (~12 URLs)
@@ -22,22 +26,16 @@ urls = []
 for a in item:
     urls.append(a["href"])
 
-# print (urls)
-# print (urls.count("http"))
-
-print (len(urls))
-
-
-while len(urls) < 16:
+while len(urls) < 100:
     n = 2
     j = 2
     page = requests.get("http://www.yangtse.com/app/internet/index_" + str(n) + ".html")
 
 
     # pause btwn 8-15s, monitor requests
-    # sleep(randint(8,15))
+    sleep(randint(8,15))
 
-    print("Request no."+str(j) + ", Index page "+str(n), "urls count is "+str(urls.count("http")))
+    print("Request no."+str(j) + ", Index page "+str(n), "urls count is "+str(len(urls)))
     n+=1
     j=+1
 
@@ -46,24 +44,21 @@ while len(urls) < 16:
     item = soup.select(".box-text-title > a")
 
     for a in item:
-        while len(urls) < 16:
+        while len(urls) < 100:
             urls.append(a["href"])
 
-#
-#         #Iterate through collection of URLs, extract details for 12 articles
-#         articles = []
-#         for link in urls:
-#             soup = BeautifulSoup(requests.get(link).text, 'html.parser')
-#         #collect headline, author, time, URL
-#             item2_headline = soup.select(".text-title")
-#             item2_author_time = soup.select(".text-time")
-#             item2_URL = link
-#         #persist collection
-#             articles.append((item2_URL, item2_headline, item2_author_time))
-#
-print(urls)
-print (len(urls))
-# # print(articles)
+        #Iterate through collection of URLs, extract details for 12 articles
+        articles = []
+        for link in urls:
+            soup = BeautifulSoup(requests.get(link).text, 'html.parser')
+        #collect headline, author, time, URL
+            item2_headline = soup.select(".text-title")
+            item2_author_time = soup.select(".text-time")
+            item2_URL = link
+        #persist collection
+            articles.append((item2_URL, item2_headline, item2_author_time))
+
+print(articles)
 #
 # #Option for output to CSV file
 # with open('articles.csv', 'a') as csv_file:
