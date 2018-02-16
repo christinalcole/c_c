@@ -43,6 +43,7 @@ while len(urls) < 100:
     soup = BeautifulSoup(page.text, 'html.parser')
     item = soup.select(".box-text-title > a")
 
+    #check this loop again--is it slow, or getting stuck?
     for a in item:
         while len(urls) < 100:
             urls.append(a["href"])
