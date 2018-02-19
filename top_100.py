@@ -16,10 +16,11 @@ from random import randint
 
 start_time = time.time()
 
-# site = "http://www.yangtse.com/app/internet/index.html"
-# page = requests.get(site)
-# soup = BeautifulSoup(page.text, 'html.parser')
-soup = BeautifulSoup(open("/Users/christinacole/Desktop/Technology - Yangtze Evening News Network.htm"), "lxml")
+site = "http://www.yangtse.com/app/internet/index.html"
+page = requests.get(site)
+# page.encoding = "GBK"
+soup = BeautifulSoup(page.text, 'lxml')
+# soup = BeautifulSoup(open("/Users/christinacole/Desktop/Technology - Yangtze Evening News Network.htm"), "lxml")
 # soup.encoding = "GBK"
 # code.interact(local=dict(globals(), **locals()))
 item = soup.select(".box-text-title > a")
@@ -29,7 +30,20 @@ urls = []
 for a in item:
     urls.append(a["href"])
 
-print(urls)
+articles = []
+for link in urls:
+    soup = BeautifulSoup(requests.get(link).text, 'lxml')
+#collect headline, author, time, URL
+    # code.interact(local=dict(globals(), **locals()))
+    item2_headline = soup.select(".text-title")
+    item2_author_time = soup.select(".text-time")
+    item2_URL = link
+#persist collection
+    articles.append((item2_URL, item2_headline, item2_author_time))
+
+print(articles)
+
+# print(urls)
 print ("--- %s seconds ---" % (time.time() - start_time))
 
 # while len(urls) < 100:
