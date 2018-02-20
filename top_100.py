@@ -60,7 +60,7 @@ print ("--- %s seconds ---" % (time.time() - start_time))
 #     j=+1
 #
 #     # isolate and collect URLS for each item on list_page
-#     soup = BeautifulSoup(page.text, 'html.parser')
+#     soup = BeautifulSoup(page.text, 'lxml')
 #     item = soup.select(".box-text-title > a")
 #
 #     #check this loop again--is it slow, or getting stuck?
@@ -71,7 +71,7 @@ print ("--- %s seconds ---" % (time.time() - start_time))
 #         #Iterate through collection of URLs, extract details for 12 articles
 #         articles = []
 #         for link in urls:
-#             soup = BeautifulSoup(requests.get(link).text, 'html.parser')
+#             soup = BeautifulSoup(requests.get(link).text, 'lxml')
 #         #collect headline, author, time, URL
 #             item2_headline = soup.select(".text-title")
 #             item2_author_time = soup.select(".text-time")
